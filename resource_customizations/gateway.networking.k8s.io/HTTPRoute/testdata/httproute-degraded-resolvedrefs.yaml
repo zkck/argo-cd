@@ -1,0 +1,46 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: http
+  namespace: default
+spec:
+  hostnames:
+    - httpbin.example.com
+  parentRefs:
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: gateway
+      namespace: istio-ingress
+  rules:
+    - backendRefs:
+        - group: ''
+          kind: Service
+          name: httpbin1
+          port: 8000
+          weight: 1
+      matches:
+        - path:
+            type: PathPrefix
+            value: /get
+status:
+  parents:
+    - conditions:
+        - lastTransitionTime: '2024-12-13T13:53:28Z'
+          message: Route was valid
+          observedGeneration: 6
+          reason: Accepted
+          status: 'True'
+          type: Accepted
+        - lastTransitionTime: '2024-12-13T13:53:28Z'
+          message: backend(httpbin1.default.svc.cluster.local) not found
+          observedGeneration: 6
+          reason: BackendNotFound
+          status: 'False'
+          type: ResolvedRefs
+      controllerName: istio.io/gateway-controller
+      parentRef:
+        group: gateway.networking.k8s.io
+        kind: Gateway
+        name: gateway
+        namespace: istio-ingress
+

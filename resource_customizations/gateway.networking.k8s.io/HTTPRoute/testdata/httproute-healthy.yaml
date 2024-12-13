@@ -1,0 +1,45 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: http
+  namespace: default
+spec:
+  hostnames:
+    - httpbin.example.com
+  parentRefs:
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: gateway
+      namespace: istio-ingress
+  rules:
+    - backendRefs:
+        - group: ''
+          kind: Service
+          name: httpbin
+          port: 8000
+          weight: 1
+      matches:
+        - path:
+            type: PathPrefix
+            value: /get
+status:
+  parents:
+    - conditions:
+        - lastTransitionTime: '2024-12-13T16:19:22Z'
+          message: Route was valid
+          observedGeneration: 8
+          reason: Accepted
+          status: 'True'
+          type: Accepted
+        - lastTransitionTime: '2024-12-13T15:33:20Z'
+          message: All references resolved
+          observedGeneration: 8
+          reason: ResolvedRefs
+          status: 'True'
+          type: ResolvedRefs
+      controllerName: istio.io/gateway-controller
+      parentRef:
+        group: gateway.networking.k8s.io
+        kind: Gateway
+        name: gateway
+        namespace: istio-ingress

@@ -1,0 +1,13 @@
+tests:
+- healthStatus:
+    status: Healthy
+  inputPath: testdata/httproute-healthy.yaml
+- healthStatus:
+    status: Degraded
+  inputPath: testdata/httproute-degraded-resolvedrefs.yaml
+- healthStatus:
+    status: Degraded
+  inputPath: testdata/httproute-degraded-accepted.yaml
+- healthStatus:
+    status: Degraded
+  inputPath: testdata/httproute-degraded-noparents.yaml
